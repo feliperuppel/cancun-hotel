@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  app:
+    container_name: booking-api
+    image: booking-api
+    environment:
+      - spring_profiles_active=${spring_profiles}
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=cancun_hotel
