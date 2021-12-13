@@ -42,7 +42,7 @@ booking.max-period-in-days=3
     - More details about .properties files can be found at [spring docs](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.external-config)
     - There are few different ways to set active profiles, in this implementation it's being set via environment variable inside of container. More examples [here](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.profiles)
 - This API is docker ready. It contains the following important files
-   - [Dockerfile](ADD LINK) - Holds the instructions for creating the API image
+   - [Dockerfile](https://github.com/feliperuppel/cancun-hotel/blob/main/Dockerfile) - Holds the instructions for creating the API image
    - [docker-compose.yaml](ADD LINK) - Holds configuration of containers environment. It builds our own api image (Based on the Dockerfile), and brings it up alongside with the Postgres
    - [.env](ADD LINK) - Contains the environment variables to be used by docker-compose. Here is where we are defining the spring profile.
 
