@@ -19,13 +19,13 @@ The requirements are:
 
 #### Implementation
 
-- This is a REST JAVA API built around [Spring ecosystem](https://spring.io/why-spring).
-- It exposes few endpoints to manage bookings, details on each endpoint can be found further in this doc.
-    - Swagger is implemented, so we have auto generated docs for the exposed endpoints. Also, it provides a nice UI for quick interaction at /swagger-ui.
+- This is a REST JAVA API built around the [Spring ecosystem](https://spring.io/why-spring).
+- It exposes a few endpoints to manage bookings, details on each endpoint can be found further in this doc.
+    - Swagger is implemented, so we have auto-generated docs for the exposed endpoints. Also, it provides a nice UI for quick interaction at /swagger-ui.
   ```
     http://localhost:8080/swagger-ui/#/
   ```
-- Current implementation can run both, [locally](https://github.com/feliperuppel/cancun-hotel/blob/main/README.md#build-and-run-locally) and in a [containerized environment](https://github.com/feliperuppel/cancun-hotel/blob/main/README.md#build-and-run-on-docker)
+- The current implementation can run both, [locally](https://github.com/feliperuppel/cancun-hotel/blob/main/README.md#build-and-run-locally) and in a [containerized environment](https://github.com/feliperuppel/cancun-hotel/blob/main/README.md#build-and-run-on-docker).
     - When running locally it connects to an H2 embedded database and stores data in memory
     - If running on docker it is configured to connect to a Postgres docker image running in a separate container
 - Stay length and Booking period can be configured via Application.properties. If this rules changes in the future, no code changes are necessary. Examples of other usefully properties can be found [here](https://docs.spring.io/spring-boot/docs/2.5.2/reference/html/application-properties.html#application-properties.core)
@@ -36,25 +36,25 @@ booking.latest-date-in-days=30
 # How long (in days) each booking can be
 booking.max-period-in-days=3
 ```
-- Spring profiles are used to have different sets of configurations/beans. Currently, apart from the default we have the 'docker' profile. The difference between them is that docker connects to Postgres while default connects to H2 DB.
-    - [application.properties](https://github.com/feliperuppel/cancun-hotel/blob/main/src/main/resources/application.properties) this file holds configurations that will be loaded by default. It is always loaded independently of profile, but clashing configurations will be overridden.
+- Spring profiles are used to have different sets of configurations/beans. Currently, apart from the default, we have the 'docker' profile. The difference between them is that docker connects to Postgres while default connects to H2 DB.
+    - [application.properties](https://github.com/feliperuppel/cancun-hotel/blob/main/src/main/resources/application.properties) this file holds configurations that will be loaded by default. It is always loaded independently of the profile, but clashing configurations will be overridden.
     - [application-docker.properties](https://github.com/feliperuppel/cancun-hotel/blob/main/src/main/resources/application-docker.properties) this file follow the pattern 'application-<profile>.properties, and will be loaded only specified profile is active. Currently, this file holds the Postgres related config.
-    - More details about .properties files can be found at [spring docs](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.external-config)
-    - There are few different ways to set active profiles, in this implementation it's being set via environment variable inside of container. More examples [here](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.profiles)
+    - More details about .properties files can be found at [spring docs](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.external-config).
+    - There are a few different ways to set active profiles, in this implementation it's being set via environment variable inside of the container. More examples [here](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.profiles).
 - This API is docker ready. It contains the following important files
-   - [Dockerfile](https://github.com/feliperuppel/cancun-hotel/blob/main/Dockerfile) - Holds the instructions for creating the API image
-   - [docker-compose.yaml](https://github.com/feliperuppel/cancun-hotel/blob/main/docker-compose.yaml) - Holds configuration of containers environment. It builds our own api image (Based on the Dockerfile), and brings it up alongside with the Postgres
+   - [Dockerfile](https://github.com/feliperuppel/cancun-hotel/blob/main/Dockerfile) - Holds the instructions for creating the API image.
+   - [docker-compose.yaml](https://github.com/feliperuppel/cancun-hotel/blob/main/docker-compose.yaml) - Holds configuration of containers environment. It builds our own api image (Based on the Dockerfile), and brings it up alongside with the Postgres.
    - [.env](https://github.com/feliperuppel/cancun-hotel/blob/main/.env) - Contains the environment variables to be used by docker-compose. Here is where we are defining the spring profile.
 
-- Booking IDs are generated by the API and follows the [UUID](https://techterms.com/definition/uuid) format
+- Booking IDs are generated by the API and follow the [UUID](https://techterms.com/definition/uuid) format.
 
-- This API was developed using [TDD](http://agiledata.org/essays/tdd.html), which leads to a very high code coverage during tests
+- This API was developed using [TDD](http://agiledata.org/essays/tdd.html), which leads to a very high code coverage during tests.
 
 #### Improvement Opportunities
 
-- We have lots of Unit tests, but Integration and Performance Tests should be created in the future
-- Internationalization of output messages is a nice to have, there are few different approaches to deal with this. Today all the output messages are located in the same static class to make it easier for future changes.
-- Fine running on Logging strategies, consider some event logging to integrate with elastic search or splunk.
+- We have lots of Unit tests, but Integration and Performance Tests should be created in the future.
+- Internationalization of output messages is nice to have, there are few different approaches to deal with this. Today all the output messages are located in the same static class to make it easier for future changes.
+- Fine running on Logging strategies, consider some event logging to integrate with ElasticSearch or Splunk.
 
 ## API Reference
 
@@ -152,6 +152,7 @@ Build
 ```bash
   ./gradlew clean build
 ```
+*In build.gradle the plain jar is disabled by default. In practice, it means that each build will generate just one jar file, and it is the executable one* 
 
 Start the server
 
@@ -179,7 +180,7 @@ Build
   ./gradlew clean build
 ```
 
-Start the server
+Start docker
 
 ```bash
   docker-compose up
@@ -187,7 +188,7 @@ Start the server
 
 ## Running Tests
 
-To run tests, run the following command
+To run tests, run the following command.
 
 ```bash
   ./gradlew test
@@ -200,7 +201,7 @@ After the server is started you can access the following link and find a handy *
 ```
 http://localhost:8080/swagger-ui/
 ```
-*Port 8080 is defaulted, but it can be changed via Application.properties* 
+*Port 8080 is the default, but it can be changed via Application.properties* 
 
 ## 🚀 About Me
 I am passionate about technology and love learning new things. I'm a Linux enthusiast with 10+
